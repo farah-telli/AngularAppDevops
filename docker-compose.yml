@@ -1,24 +1,10 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  mysqldb:
-    image: mysql:5.7
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=root
-    ports:
-      - "3306:3306"
-    volumes:
-      - db:/var/lib/mysql
-
-  frontend:
-    build:
-      context: ./frontend
+  app:
+    build: .
     image: farahtelli/frontend:1.0.0
-    restart: on-failure
+    restart: always
+    container_name: frontend
     ports:
-      - "4200:80"
-
-volumes:
-  db:
+      - '80:80'

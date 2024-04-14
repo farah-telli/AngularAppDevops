@@ -1,29 +1,28 @@
-# Utilisez une image de base avec Node.js pour construire l'application Angular
-FROM node:14 as builder
+# Étape de construction
+FROM node:14 AS builder
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers du projet dans le répertoire de travail
-COPY . .
+# Copie des fichiers package.json et package-lock.json (si vous en avez un)
+COPY package*.json ./
 
-# Installer les dépendances
+# Installation des dépendances
 RUN npm install
 
-# Construire l'application Angular
-RUN npm run build --prod
+# Copie du reste des fichiers de l'application
+COPY . .
 
-# Utilisez une image de base légère avec Nginx pour héberger l'application Angular
-FROM nginx:stable-alpine
+# Construction de l'application
+RUN npm run build -- --prod
 
-# Copier les fichiers de build de l'application dans le répertoire de travail de Nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Étape de production
+FROM nginx:alpine
 
-# Copier la configuration nginx personnalisée
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copie du build de l'étape précédente dans le répertoire nginx public
+COPY --from=builder /app/dist/crudtuto-Front /usr/share/nginx/html
 
-# Exposer le port 80 pour accéder à l'application depuis l'extérieur du conteneur
-EXPOSE 80
+# Exposition du port 4600
+EXPOSE 4600
 
-# Commande de démarrage de Nginx
+# Commande de démarrage pour Nginx
 CMD ["nginx", "-g", "daemon off;"]
