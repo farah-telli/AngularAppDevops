@@ -1,11 +1,11 @@
 server {
     listen 80;
-    server_name 192.168.50.4;
+    server_name 172.20.10.6;
 
     root /usr/share/nginx/html; # Répertoire racine où se trouvent vos fichiers HTML
 
-    location /SpringMVC/produit {
-        proxy_pass http://172.20.10.6:8082/SpringMVC/produit;
+    location /SpringMVC/fournisseur {
+        proxy_pass http://172.20.10.6:8082/SpringMVC/fournisseur;
     }
 
     
