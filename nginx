@@ -4,8 +4,8 @@ server {
 
     root /usr/share/nginx/html; # Répertoire racine où se trouvent vos fichiers HTML
 
-    location /SpringMVC/fournisseur {
-        proxy_pass http://172.20.10.6:8082/SpringMVC/fournisseur;
+    location /SpringMVC/stock {
+        proxy_pass http://172.20.10.6:8082/SpringMVC/stock;
     }
 
     
